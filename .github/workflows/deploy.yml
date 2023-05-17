@@ -25,7 +25,8 @@ jobs:
 
       - name: Deploy API Gateway Spec
         run: |
-          gcloud api-gateway api-configs create my-api-config \
-              --api=my-api \
+          gcloud api-gateway api-configs create hasegawa-config \
+              --api=hasegawa \
               --openapi-spec=my-api-spec.yaml \
               --project=${{ secrets.GCP_PROJECT_ID }} \
+              --backend-auth-service-account=api-726@kaigofika-poc01.iam.gserviceaccount.com
