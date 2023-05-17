@@ -1,0 +1,31 @@
+name: Deploy API Gateway Spec
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリをチェックアウト
+      - name: 'Checkout the repository'
+        uses: actions/checkout@v2
+ 
+      # GCP 認証
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+ 
+      # gcloud コマンドの設定
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: Deploy API Gateway Spec
+        run: |
+          gcloud api-gateway api-configs create my-api-config \
+              --api=my-api \
+              --openapi-spec=my-api-spec.yaml \
+              --project=${{ secrets.GCP_PROJECT_ID }} \
